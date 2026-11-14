@@ -24,7 +24,11 @@ export interface ResultadoRefresh {
 }
 
 function apiKey(): string {
-  return process.env.FIREBASE_WEB_API_KEY ?? "";
+  const key = process.env.FIREBASE_WEB_API_KEY ?? "";
+  if (!key) {
+    console.error("[api] FIREBASE_WEB_API_KEY no está configurada en el servidor.");
+  }
+  return key;
 }
 
 async function publicar(url: string, body: unknown): Promise<Response> {
@@ -53,6 +57,9 @@ function mapearErrorAuth(datos: Record<string, unknown>): ApiError {
     case "TOKEN_EXPIRED":
       return new ApiError(401, "Token de actualización inválido o expirado");
     default:
+      // Se registra el código real para depurar en los logs de Vercel; el
+      // cliente solo ve el mensaje genérico (sin filtrar detalles internos).
+      console.error("[api] error de Firebase Auth REST:", codigo);
       return new ApiError(500, "Error interno");
   }
 }
