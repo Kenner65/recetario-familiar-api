@@ -56,6 +56,14 @@ function mapearErrorAuth(datos: Record<string, unknown>): ApiError {
     case "INVALID_REFRESH_TOKEN":
     case "TOKEN_EXPIRED":
       return new ApiError(401, "Token de actualización inválido o expirado");
+    case "API_KEY_INVALID":
+    case "INVALID_KEY":
+      console.error("[api] FIREBASE_WEB_API_KEY inválida");
+      return new ApiError(500, "Clave de API web de Firebase inválida");
+    case "OPERATION_NOT_ALLOWED":
+    case "PASSWORD_LOGIN_DISABLED":
+      console.error("[api] proveedor de correo/contraseña no habilitado:", codigo);
+      return new ApiError(500, "El inicio con correo/contraseña no está habilitado en Firebase");
     default:
       // Se registra el código real para depurar en los logs de Vercel; el
       // cliente solo ve el mensaje genérico (sin filtrar detalles internos).
