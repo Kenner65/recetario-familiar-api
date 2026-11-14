@@ -1,9 +1,13 @@
-# Recetario familiar — API
+# Recetario familiar — API + Web
 
 API REST en **Next.js (App Router, Route Handlers)** desplegada en Vercel. Es el único intermediario
 entre la app móvil y los servicios: **Firebase** (Authentication + Firestore, vía Admin SDK) y
 **Vercel Blob** (imágenes). Todas las credenciales viven solo en las variables de entorno de Vercel;
 la app solo conoce la URL pública de esta API.
+
+Además incluye una **web app del recetario** (en `/`) que usa exactamente la misma API y las mismas
+cuentas que la app móvil: iniciar sesión/registrarse, ver, buscar, crear, editar y borrar recetas,
+marcar favoritas y ajustar porciones. Los datos se guardan en Firestore bajo el mismo usuario.
 
 ## Stack
 
@@ -77,7 +81,7 @@ Comandos:
 4. Copia la **clave de API web** (Configuración del proyecto → General) en `FIREBASE_WEB_API_KEY`.
 
 ## Desplegar en Vercel
-
+   
 ```bash
 npx vercel              # enlaza el proyecto
 npx vercel env add      # añade las variables de entorno (o en el panel)
